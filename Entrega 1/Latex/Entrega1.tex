@@ -1,0 +1,209 @@
+\documentclass[letter, 10pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage[dvips]{graphicx}
+\usepackage{url}
+\usepackage[top=3cm,bottom=3cm,left=3.5cm,right=3.5cm,footskip=1.5cm,headheight=1.5cm,headsep=.5cm,textheight=3cm]{geometry}
+\usepackage{booktabs}
+
+
+\begin{document}
+\title{Inteligencia Artificial \\ \begin{Large}Estado del Arte: Problema VRPB\end{Large}}
+\author{Rodrigo Ignacio Ramírez Díaz}
+\date{\today}
+\maketitle
+
+
+%--------------------No borrar esta secci\'on--------------------------------%
+\section*{Evaluaci\'on}
+
+\begin{tabular}{ll}
+Resumen (5\%): & \underline{\hspace{2cm}} \\
+Introducci\'on (5\%):  & \underline{\hspace{2cm}} \\
+Definici\'on del Problema (10\%):  & \underline{\hspace{2cm}} \\
+Estado del Arte (35\%):  & \underline{\hspace{2cm}} \\
+Modelo Matem\'atico (20\%): &  \underline{\hspace{2cm}}\\
+Conclusiones (20\%): &  \underline{\hspace{2cm}}\\
+Bibliograf\'ia (5\%): & \underline{\hspace{2cm}}\\
+ &  \\
+\textbf{Nota Final (100\%)}:   & \underline{\hspace{2cm}}
+\end{tabular}
+%---------------------------------------------------------------------------%
+\vspace{2cm}
+
+
+\begin{abstract}
+El presente informe se centra en el problema de ruteo de vehículos con recogidas y entregas (VRPB), una extensión del conocido problema de ruteo de vehículos (VRP) que considera tanto la entrega como la recogida de mercancías por parte de una flota. Se investiga la versión del VRPB mixto, que modifica la convencional limitación de finalizar todas las entregas antes de las recolectadas.  El propósito principal de este documento es establecer y examinar el problema del VRPB mixto, evaluar la situación presente de la investigación respecto a los métodos de resolución (exactos, heurísticos y metaheurísticos), y sugerir un modelo matemático que pueda adaptarse a situaciones reales.  Finalmente, se analizan las restricciones de los métodos actuales y se proponen estrategias futuras de investigación.
+\end{abstract}
+
+\section{Introducci\'on}
+
+Desde inicios de la pandemia, se popularizaron varios servicios relacionados a problemas VRPB (Vehicle Routing Problem with Backhauls), como "\emph{PedidosYa}", servicios de pickup, delivery y transportes como "\emph{Uber}". El aumento de la demanda ha generado una creciente investigación frente al problema VRPB, el cual corresponde al problema de optimización del VRP (Vehicle Routing Problem), y que, en consecuencia, forma parte del conjunto de problemas NP-hard. Este informe toma una variante específica de dicho problema, siendo su enfoque principal, para realizar un análisis, comparaciones, modelaciones y conclusiones, observando qué oportunidades ofrece profundizar en problemas de este estilo.
+
+Para ello, en la siguiente sección del informe, que consiste en la definición del problema, se tendrá en consideración una de las tantas variantes del problema VRPB, identificando las restricciones y cómo se definirán las variables para este caso. En particular, se abordará el problema que, según el artículo escrito por \textit{A survey on pickup and delivery problems} \cite{parragh2008survey}, corresponde a la segunda clase, la cual permite realizar linehauls (entregas) y backhauls (recogidas) sin un orden predefinido, a diferencia del modelo original de VRPB u otras variantes, lo que afecta el modelo y el espacio de búsqueda.
+
+Luego, se realiza un análisis y estado del arte del problema frente a modelamientos matemáticos que se han propuesto respecto a esta problemática, comparando diversas heurísticas y modelos exactos relacionados al problema VRPB mixto principalmente, y haciendo mención a otras variantes del problema para utilidad del lector, aunque estas no serán abordadas de manera extensa en el presente informe. En base a los diferentes modelos matemáticos del VRPB mixto aplicados, se establecerá una relación y se analizará cuál tiene mayor potencial y utilidad, realizando un modelamiento matemático tomando como referencia alguno de los modelos planteados, estableciendo el potencial y las limitaciones de este para ser implementado en un software real de enrutamiento en alguna empresa de este rubro.
+
+Finalmente, se presentan conclusiones y se discute el futuro del estudio que busca optimizar la distancia entre nodos de una misma ruta. Esto, además de ser significativo para los clientes de las diversas empresas que ofrecen servicios de pickup y delivery, también representa un beneficio para las mismas empresas, permitiendo ahorrar miles de dólares, como fue el caso reportado por Ruiz-Meza et al.\cite{ruiz2021problema}, donde se logró disminuir casi el 20\% de los costos totales aplicando heurísticas al problema VRPB. Además, permite utilizar de mejor manera los recursos y minimizar la generación de CO{\tiny 2}, lo cual ha sido un foco importante en el último tiempo.
+
+\section{Definici\'on del Problema}
+ 
+Como se hizo mención anteriormente, el problema a estudiar es el VRPB (\textit{Vehicle Routing Problem with Backhauls}), el cual surge a raíz del problema VRP (\textit{Vehicle Routing Problem}). Este consiste en un conjunto de clientes que demandan algún servicio, debiéndose satisfacer a cada cliente mediante la ruta más óptima y menos costosa. Por lo tanto, para el problema se debe tener un grafo, siendo los clientes y el depósito de origen (tradicionalmente simbolizado con un ?0?) representados por los nodos, y los arcos representan los costos asociados a moverse de un nodo a otro. Este costo puede representar distancia, costo equivalente a bencina, o algún otro parámetro. Además, es un problema que, según el artículo \cite{martinez2011cooperacion}, en un principio fue la extensión del problema TSP (\textit{Travelling Salesman Problem}) y, al igual que este último, toma suma importancia dentro de la categoría NP-Hard.
+
+Ahora, a diferencia del problema VRP, que contiene solo clientes con cierta demanda, el VRPB es una variante que adicionalmente considera otro tipo de clientes, teniéndose dos tipos: los \textit{linehauls} (entregas) y \textit{backhauls} (recogidas). Por lo tanto, no basta solo con encontrar la ruta más óptima que pase por los clientes, asemejándose más al problema TSP. En esta variante, la capacidad del vehículo irá variando en cada nodo que se visite, por lo que es una variante más restrictiva. Se sigue manteniendo la función objetivo de minimizar los costos totales de los arcos que recorre cada vehículo, beneficiando a la empresa y al ambiente al disminuir costos y emisiones de CO{\tiny 2}. El problema VRPB original determina que los linehauls deben ser atendidos antes que los clientes backhauls, pero en este informe, al trabajar con la variante de VRPB mixta, se busca eliminar dicha restricción, modificándola para que no haya orden de prioridad entre linehauls y backhauls. Esto permite a los vehículos liberar carga por cada linehaul, y tener espacio disponible para recoger a otros backhauls, disminuyendo costos, aunque generando rutas más largas.
+
+Para ello, el problema relacionado al grafo debe contar con variables que representen el auto al que se le asignará una ruta, y representar los arcos para indicar cuáles serán o no asignados a algún vehículo i. Por otro lado, las restricciones que debe cumplir el problema VRPB mixto o problema de segunda clase son iguales al problema VRPB estándar, en donde el vehículo i debe ser asignado solo a una ruta, además de salir y volver al nodo de origen o depósito una única vez. También, los linehauls deben ser atendidos previamente a los clientes backhauls, permitiéndose la asignación de clientes únicamente linehauls (entregas), no así los clientes backhauls. Siendo la variante la modificación de una restricción en que los linehauls debían ser atendidos antes, ahora se permite atender a los backhauls sin un orden predefinido, permitiendo un mejor uso de los recursos y reduciendo la huella de carbono, lo cual ha tomado peso últimamente en el estudio de problemas de optimización.
+
+Adicionalmente, en la literatura o estudios del estado del arte, se hace mención a otras variantes del problema VRPB, como lo puede ser el MT-VRPB. Este problema añade a las restricciones la libertad de asignar a los vehículos más de una ruta. Pero, para que el modelamiento matemático tenga coherencia, se debe agregar a la función objetivo la minimización de vehículos, además de los costos asociados a los arcos de un cliente o depósito a otro (nodos). En el artículo redactado por \textit{Wassan} \cite{wassan2017multiple}, se encuentra una representación gráfica de esta variante.
+
+\section{Estado del Arte}
+
+El problema VRPB, el cual consiste en una variación del problema original VRP, surge a raíz de un planteamiento realizado por Flood, que consiste en el problema del vendedor viajero TSP (\textit{Travelling Salesman Problem}), en 1956. Este problema plantea que un viajero debe recorrer todas las ciudades (nodos), iniciando y terminando su ruta en la ciudad de origen, buscando minimizar la cantidad de arcos, ya sea con costos asociados a la distancia u otra índole. A partir de este problema, a lo largo de la historia ?como se menciona en el artículo \textit{State of the art review of the vehicle routing problem: A historic account with solving methods} \cite{medina2011revision}?, surgen variaciones o extensiones como m-TSP, PTSP y VRP o CVRP, siendo este último descrito como una generalización del problema TSP. Dando inicio al estudio mas detallado de los problemas VRP  en 1959 por \textit{Dantzig y Ramser}\cite{dantzig_ramser_1959} y del cual surgen dos ramas, problemas VRP homogeneos y heterogeneos, refiriendose a los distintos requerimientos de los clientes y flota, de esto se puede desprender un problema mas estático respecto a los parametros y restricciones a realizar o un analisis complejo sobre estos mismos, respectivamente
+
+En este caso, corresponde a una derivación de los problemas VRP homogéneos, los cuales han tenido distintas variantes a lo largo del tiempo, como DVRP, VRPTW, SDVRP y VRPB, siendo este último nuestra variante principal de estudio en esta investigación. El VRPB surge en 1985, agregando y separando a los clientes en tres tipos: el depósito (nodo de origen), \textit{linehauls} y \textit{backhauls}.
+
+Los problemas asociados al VRP han utilizado diversos métodos de resolución como métodos exactos, heurísticas y metaheurísticas, tomando enfoques como programación lineal entera, partición de conjuntos, restricción de vecindades locales, entre otros. Sin embargo, en este informe solo se abordarán los métodos relacionados a la variante específica del VRPB mixto, que es el enfoque central de este trabajo.
+
+\subsection{Metodos exactos}
+
+\begin{itemize}
+
+	\item \textit{Baldacci et al. (2003)} \cite{baldacci2003exact}, mediante un método exacto, propone una nueva formulación de programación entera para el problema VRPB, basándose en el estudio y formulación del flujo de red de dos productos del problema TSP propuesto por Finke et al. \cite{finke1984two}. Esta formulación, mediante la relajación de restricciones ?las cuales fueron reforzadas con desigualdades válidas e integradas mediante \textit{Branch and Cut}?, permitía resolver el problema de manera óptima, aunque con la observación de que es aplicable solo cuando se optimiza para un solo vehículo, lo cual en la realidad es poco razonable.
+
+	\item También está la formulación propuesta por \textit{Süral y Bookbinder} en 2003 \cite{sural2003single}, la cual, al igual que el caso anterior, se basa en el estudio de una variación del problema TSP, modificando las restricciones asociadas a la eliminación de subtours, derivadas del problema MTZ (se deja un ejemplo práctico del problema MTZ en el que se basa Süral y Bookbinder) \cite{florez2017aplicacion}.
+
+\end{itemize}
+
+\subsection{Heurísticas y Metaheuristicas}
+
+\begin{itemize}
+	\item RP06: Ropke y Pisinger (2006)\cite{ropke2006unified} realizan un estudio enfocado en la heurística de grandes vecindarios, capaces de ser adaptados a todos los problemas de VRP, lo que incluye nuestro caso de estudio: el VRPB mixto o VRPMB. Esta heurística es una convergencia o unión de varias heurísticas atribuidas a diversos autores a lo largo de la historia y del estado del arte, y consiste en realizar una búsqueda en grandes vecindarios, es decir, un conjunto de clientes (nodos), ya sean linehauls o backhauls. Posteriormente, se ejecutan iterativa y repetidamente los siguientes pasos:
+	\begin{enumerate}
+		\item Elegir dos heurísticas: una heurística $i$, que será eliminada, y otra heurística $j$, la cual será insertada en su lugar.
+		\item Eliminar una cierta cantidad de rutas solicitadas en base a la heurística $i$ que se eliminó previamente.
+		\item Asignar cierta cantidad de solicitudes en las rutas existentes que estén libres, respecto a la heurística $j$ que se insertó previamente.
+		\item Evaluar la función objetivo de la nueva solución.
+		\item Si la función objetivo mejora con respecto a la que se tenía previamente, se debe aceptar.
+	\end{enumerate}
+	
+	\item GA09: Gajpal y Abad (2009)\cite{gajpal2009multi} realizan un estudio teniendo al \textit{Multi-Ant Colony System} (MACS) como base. Si bien este no es el único trabajo que utiliza este enfoque, se diferencia en que no se impone un límite predefinido de vehículos, a diferencia de otros modelos basados en MACS o \textit{Ant Colony Systems} (ACS). Por otro lado, esta heurística se inspira en la frase "\textit{Cluster primero y enrutamiento después}", ya que utiliza un enfoque en el cual se asignan clientes (pueden ser linehaul o backhaul, en el caso del VRPB a estudiar) a un solo vehículo. Luego, el problema se reduce a un problema TSP para cada uno de los vehículos, siendo los clientes equivalentes a las ciudades que debe visitar el vendedor, representado en este caso por el vehículo asignado, con el depósito como punto de origen. El algoritmo utilizado en este estudio consiste en los siguientes pasos:
+	\begin{enumerate}
+		\item La "hormiga" no sabe por cuál ruta iniciar, por lo que se le asigna una ruta al azar, con un contador inicializado en 1. Este contador representa los intentos para encontrar la mejor ruta y debe llegar hasta 5.
+		\item Diversas hormigas realizan la búsqueda del mejor camino hacia la "comida", con pequeñas variaciones, como acortar el recorrido regresando a una posición anterior o inicial. Cada hormiga realiza esto hasta 10 veces.
+		\item Una vez que el contador llega a 5, el algoritmo se detiene e indica cuál fue la mejor ruta encontrada.
+	\end{enumerate}
+	
+	\item ZK12: Zachariadis y Kiranoudis (2012)\cite{zachariadis2012effective} es un estudio que podría considerarse que utiliza un método híbrido, ya que emplea la metaheurística de búsqueda local, explorando vecindades de \textit{clientes} (nodos) con soluciones enriquecidas, y la implementación de búsqueda tabú a raíz de insertar un concepto denominado "promesas", un mecanismo sin parámetros, que evita caer en óptimos locales y permite diversificar la búsqueda. Para este algoritmo se realizan intercambios de secuencias o conjutno de clientes, siendo la cantidad de clientes en cada secuencia variable, pero esto genera un problema, ya que la complejidad seria \(O(n^2)\), para minimizar la complejidad computacional que esto representa, implementan una estrategia llamada \textit{Static Move Descriptor} (SMD), rodeando de un amplio conjunto de reglas y restricciones explicadas detalladamente en el articulo\cite{zachariadis2012effective}.
+	
+	\item CGSA14: Cuervo y colaboradores (2014) \cite{cuervo2014iterated} presentan un algoritmo basado en la búsqueda local iterada, mas especificamente, una heurística de búsqueda local oscilante. Por un lado, permitiendo explorar una estructura amplia de vecindades en cada iteración, lo que brinda una mejor comprensión del espacio de soluciones vecinas y, en consecuencia, reduce el tiempo de ejecución. Por otro lado, mediante la incorporación de la heurística MCO, el algoritmo es capaz de explorar soluciones que se encuentran en el conjunto de infactibilidad, pero que, según el artículo, tienen valor para investigaciones futuras. Además, esto le permite alcanzar nuevas regiones factibles del problema.
+	
+	\item VCGP14: Vidal y otros (2014)\cite{vidal2014unified} utilizan la metaheuristica \textit{Unified Hybrid Genetic Search} (UHGS), la cual combina varias tecnicas independientes del problema y tecnicas inspiradas en la seleccion natural para la evolucion de la poblacion, pero a excepcion de otros estudios en la literatua, este busca ser aplicable a todo el rango de problemas derivados de VRP (\textit{Vehicle Routing Problem}), buscando asignar clientes a los vehiculos, determinar el orden en que se visitan, todo de manera muy general, pero con un enfoque sumamente poderoso.
+\end{itemize}
+	
+\begin{table}[h!]
+	\centering
+	\caption{Comparación promedio de metaheurísticas recientes en el VRPB estándar.}
+	\label{tab:comparacion_metaheuristicas}
+	\begin{tabular}{l c c c c c c c c}
+		\toprule
+		Referencias & \multicolumn{3}{c}{Instancias de GJ89} & \multicolumn{3}{c}{Instancias de TV97} & Procesador & UPC \\
+		\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+		& Costo & Desv (\%) & Tiempo & Costo & Desv (\%) & Tiempo &  &  \\
+		\midrule
+		RP06 & 291823.35 & 0,43 & 26.22 & 704.54 & 0,56 & 15.55 & Pentium IV & 1,5 GHz \\
+		GA09 & 290920.90 & 0,12 & 67.57 & 702.35 & 0,24 & 25.64 & Intel Xeon & 2,4 GHz \\
+		ZK12 & 291927.72 & 0,47 & 223.09 & - & - & - & Intel Core 2 & 1,66 GHz \\
+		CGSA14 & 291170.20 & 0,21 & 86.75 & 703.52 & 0,41 & 13.29 & Intel Core i7 & 2,93 GHz \\
+		VCGP14 & 290611.00 & 0,02 & 41.38 & - & - & - & Opterón 250 & 2,4 GHz \\
+		\bottomrule
+	\end{tabular}
+\cite{kocc2018vehicle}
+\end{table}
+
+
+En base a la anterior figura \ref{tab:comparacion_metaheuristicas}, la peor heuristica a utilizar corresponde a la realizada por \textit{Cuervo et al.} (CGSA14), ya que si bien no es el de mayor tiempo, si es el que tiene mejor procesador en comparacion a las pruebas realizadas por otros autores y heuristicas. Y si bien la prueba realizada por \textit{Zachariadis y Kiranoudis} (ZK12) es el de mayor tiempo con 223.09[s], tambien tiene un procesador Intel core 2, muy per debajo de la gamma que representa el intel core i7. Por lo que ambos podrian estar bordeando el mismo nivel en cuanto a rendimiento.
+
+Finalmente, a pesar de que existen diversos métodos, los enfoques con mayor potencial y foco de investigación son las heurísticas y metaheurísticas por sobre los métodos exactos. Esto se debe a que, al ser un problema NP-Hard, encontrar soluciones óptimas para instancias de gran tamaño -lo cual es un fiel reflejo de la realidad, por ejemplo en empresas como Walmart o del rubro de bebestibles- puede ser muy costoso computacionalmente. Por ende, se opta por estas heurísticas o metaheurísticas, ya que, a pesar de no proporcionar una solución óptima, el rendimiento de los algoritmos es mucho mejor y en menor tiempo. Estos métodos son, en su mayoría, aplicados a las instancias proporcionadas por \textit{Goetschalckx and Jacobs-Blecha (1989)}\cite{goetschalckx1989vehicle} y \textit{Toth and Vigo(1997)}\cite{toth1997exact}.
+\newpage
+
+\section{Modelo Matem\'atico}
+
+El siguiente modelo matemático representa el problema de ruteo de vehículos mixto (VRPB mixto o VRPMB), es decir, con \textit{linehauls} y \textit{backhauls}, adaptado para instancias con una cantidad única de demanda/oferta por cliente e inspirado en el modelo matematico del trabajo de título de Yomar Tapia Torres\cite{TapiaTorres2022}.
+
+\textbf{Conjuntos e Índices:}
+\begin{itemize}
+	\item $V$: Conjunto de clientes, $|V| = n$. Índices $i, j \in V$.
+	\item $V_0 = V \cup \{0\}$: Conjunto de clientes y el depósito. Índices $i, j \in V_0$.
+	\item $M$: Conjunto de vehículos disponibles. Índice $m \in M$.
+	\item $A$: Conjunto de arcos entre los nodos en $V_0$.
+\end{itemize}
+
+\textbf{Parámetros:}
+\begin{itemize}
+	\item $Q_m$: Capacidad máxima de carga del vehículo $m$.
+	\item $o_i$: Oferta/demanda en el nodo $i \in V$.
+	\item $t_{ij}$: Costo de transporte del nodo $i$ al nodo $j$.
+\end{itemize}
+
+\textbf{Variables de Decisión:}
+\begin{itemize}
+	\item $x_{ij}^m \in \{0, 1\}$: 1 si el vehículo $m$ viaja del nodo $i$ al nodo $j$, 0 en caso contrario.
+	\item $y_i^m \in \{0, 1\}$: 1 si el vehículo $m$ visita el nodo $i \in V$, 0 en caso contrario.
+	\item $z_i \in \{0, 1, 2\}$: 0 si el nodo corresponde al deposito, 1 corresponde a un cliente $linehaul$ y 2 si corresponde a un cliente $backhaul$.
+	\item $l_i^m \geq 0$: Nivel de carga del vehículo $m$ justo después de salir del nodo $i$.
+	\item $u_i^m \in [n]$: Posición del nodo $i$ en la ruta del vehículo $m$.
+\end{itemize}
+
+\textbf{Función Objetivo:}
+\begin{equation}
+	\min \sum_{i \in V_0} \sum_{j \in V_0, i \neq j} \sum_{m \in M} t_{ij} x_{ij}^m
+\end{equation}
+La función objetivo busca minimizar el costo total de transporte determinando la mejor ruta y el numero optimo de vehiculos utilizados.
+
+\textbf{Restricciones:}
+\begin{align}
+	&\sum_{j \in V} x_{0j}^m \leq 1, \quad &\forall m \in M \label{eq:salida_deposito} \\
+	&\sum_{j \in V} x_{j0}^m \leq 1, \quad &\forall m \in M \label{eq:regreso_deposito} \\
+	&\sum_{j \in V_0, j \neq i} x_{ji}^m = y_i^m, \quad &\forall m \in M, i \in V \label{eq:llegada_cliente} \\
+	&\sum_{j \in V_0, j \neq i} x_{ij}^m = y_i^m, \quad &\forall m \in M, i \in V \label{eq:salida_cliente} \\
+	&\sum_{m \in M} y_i^m = 1, \quad &\forall i \in V \label{eq:visita_unica} \\
+	&l_j^m \geq l_i^m - d_j x_{ij}^m + q_j x_{ij}^m - Q_m (1 - x_{ij}^m), \quad &\forall m \in M, i, j \in V_0, i \neq j \label{eq:carga_vehiculo_modificada} \\
+	&0 \leq l_i^m \leq Q_m, \quad &\forall m \in M, i \in V_0 \label{eq:rango_carga} \\
+	&u_j^m \geq u_i^m + 1 - n(1 - x_{ij}^m), \quad &\forall m \in M, i, j \in V, i \neq j \label{eq:subtour_eliminacion} \\
+	&1 \leq u_i^m \leq n, \quad &\forall m \in M, i \in V \label{eq:rango_posicion} \\
+	&x_{ij}^m \in \{0, 1\}, \quad &\forall i, j \in V_0, m \in M \label{eq:binaria_x} \\
+	&y_i^m \in \{0, 1\}, \quad &\forall i \in V, m \in M \label{eq:binaria_y} \\
+	&z_i \in \{0, 1, 2\}, \quad &\forall i \in V \label{eq:valores_z} \\
+	&l_i^m \geq 0, \quad &\forall i \in V_0, m \in M \label{eq:positiva_carga} \\
+	&u_i^m \in \mathbb{Z}^+, \quad &\forall i \in V, m \in M \label{eq:entera_posicion}
+\end{align}
+
+Las restricciones (\ref{eq:salida_deposito}) y (\ref{eq:regreso_deposito}) establecen el equilibrio necesario entre la cantidad de vehículos que parten del depósito (nodo de origen '0') y la cantidad que regresan a él. Las restricciones (\ref{eq:llegada_cliente}) y (\ref{eq:salida_cliente}) aseguran que si un vehículo llega a un cliente i o sale de él, dicho cliente debe estar registrado como visitado. La restricción (\ref{eq:visita_unica}) garantiza que cada cliente o nodo sea visitado una única vez. La restricción (\ref{eq:carga_vehiculo_modificada}) tiene como objetivo controlar la carga del vehículo: al viajar de un nodo i a un nodo j, la carga al salir de i debe actualizarse para reflejar la carga con la que llegará a j. La restricción (\ref{eq:rango_carga}) impide exceder la capacidad de carga de los vehículos (considerando una flota homogénea) y evita tener carga negativa. La restricción (\ref{eq:subtour_eliminacion}) se encarga de eliminar las subrutas que conduzcan a un punto muerto o que no aseguren el retorno al depósito (nodo de origen). Finalmente, el conjunto de restricciones que va desde (\ref{eq:rango_posicion}) hasta (\ref{eq:entera_posicion}) define la naturaleza de las variables utilizadas en el modelo.
+\newpage
+
+\section{Conclusiones}
+En el presente informe se ha podido constatar la amplia gama de variaciones que presentan tanto el problema VRP como su extensión VRPB. Una gran diferencia radica en las heurísticas y metaheurísticas que distintos autores han propuesto para abordar estos problemas. Es interesante observar cómo una misma heurística puede ser aplicada de maneras muy distintas, dependiendo de su implementación algorítmica ?como el uso de estructuras de datos, técnicas de búsqueda local, entre otros métodos?, lo cual demuestra que un mismo problema puede parecer simple o extremadamente complejo según el enfoque adoptado.
+\newline
+
+Una de las principales limitaciones que he identificado es la dificultad de modelar estos problemas de manera lineal, ya que resulta complejo representar decisiones basadas en estructuras más avanzadas utilizando únicamente variables de decisión tradicionales. Por otro lado, a partir de mi análisis, considero que gran parte de las investigaciones futuras se enfocarán en el uso de heurísticas y metaheurísticas por sobre los métodos exactos. Aunque estas técnicas no siempre garantizan una solución óptima, permiten obtener resultados cercanos al óptimo en tiempos considerablemente menores. Además, muchos de los enfoques más eficientes identificados en la literatura utilizan algoritmos de búsqueda local como base, lo cual los convierte en una vía prometedora para seguir investigando la problemática del VRPB.
+
+Como se mencionó anteriormente, ya existe cierta claridad respecto a las líneas que deberían seguir las investigaciones futuras. Estas deben centrarse en la exploración y desarrollo de nuevas heurísticas, lo cual cobra aún más relevancia en un contexto actual donde las operaciones de recogida y entrega (pickup and delivery) son esenciales para una gran cantidad de empresas que distribuyen productos físicos a sus clientes o que requieren abastecer múltiples puntos de venta.
+\newline
+
+Para concluir, sería interesante y muy relevante considerar una variante que incorpore el consumo de combustible de cada vehículo. Esta propuesta nace desde una experiencia personal: la madre del autor ha trabajado para la empresa Walmart, armando pedidos y realizando entregas a distintos clientes. Algunos se encontraban muy cerca, pero otros bastante lejos, y siempre existía la incertidumbre de si esas distancias mayores realmente eran rentables en términos monetarios, o si la empresa compensaba adecuadamente el gasto en que incurría el vehículo al ir y volver desde el cliente (linehaul).
+
+Para abordar esta problemática, se sugiere modificar la función objetivo, de modo que minimice los costos asociados tanto a la distancia recorrida como al combustible utilizado. Es posible que una ruta más larga resulte más económica en términos de combustible, dependiendo del tráfico presente en los distintos caminos disponibles.
+
+Asimismo, sería necesario agregar nodos que representen puntos de reabastecimiento de combustible para aquellos vehículos que lo necesiten, junto con una política de compensación clara hacia los conductores, que garantice la retribución por los gastos asociados al consumo de bencina.
+
+
+%------Esta secciÃ³n puede ser removida ----------%
+\section{Bibliograf\'ia}
+A continuación, se presentan las referencias utilizadas para el análisis y estudio del problema VRPB, así como de problemas relacionados, en el contexto del presente informe.
+%------Remover hasta acÃ¡ ----------%
+\bibliographystyle{plain}
+\bibliography{Referencias}
+
+\end{document} 

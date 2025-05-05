@@ -1,0 +1,120 @@
+\begin{thebibliography}{10}
+
+\bibitem{baldacci2003exact}
+Roberto Baldacci, Eleni Hadjiconstantinou, and Aristide Mingozzi.
+\newblock An exact algorithm for the traveling salesman problem with deliveries
+  and collections.
+\newblock {\em Networks: An International Journal}, 42(1):26--41, 2003.
+
+\bibitem{cuervo2014iterated}
+Daniel~Palhazi Cuervo, Peter Goos, Kenneth S{\"o}rensen, and Emely Arr{\'a}iz.
+\newblock An iterated local search algorithm for the vehicle routing problem
+  with backhauls.
+\newblock {\em European Journal of Operational Research}, 237(2):454--464,
+  2014.
+
+\bibitem{dantzig_ramser_1959}
+George~B. Dantzig and John~H. Ramser.
+\newblock The truck dispatching problem.
+\newblock {\em Management Science}, 6(1):80--91, 1959.
+
+\bibitem{finke1984two}
+Gerd Finke.
+\newblock A two-commodity network flow approach to the traveling salesman
+  problem.
+\newblock {\em Congresses Numeration}, 41:167--178, 1984.
+
+\bibitem{florez2017aplicacion}
+Jairo Alberto~Villegas Fl{\'o}rez, Carlos Julio~Zapata Grisales, and Gustavo
+  Gatica.
+\newblock Una aplicaci{\'o}n del m{\'e}todo mtz a la soluci{\'o}n del problema
+  del agente viajero.
+\newblock {\em Scientia et technica}, 22(4):341--344, 2017.
+
+\bibitem{gajpal2009multi}
+Yuvraj Gajpal and Prakash~L Abad.
+\newblock Multi-ant colony system (macs) for a vehicle routing problem with
+  backhauls.
+\newblock {\em European journal of operational research}, 196(1):102--117,
+  2009.
+
+\bibitem{goetschalckx1989vehicle}
+Marc Goetschalckx and Charlotte Jacobs-Blecha.
+\newblock The vehicle routing problem with backhauls.
+\newblock {\em European Journal of Operational Research}, 42(1):39--51, 1989.
+
+\bibitem{kocc2018vehicle}
+{\c{C}}a{\u{g}}r{\i} Ko{\c{c}} and Gilbert Laporte.
+\newblock Vehicle routing with backhauls: Review and research perspectives.
+\newblock {\em Computers \& Operations Research}, 91:79--91, 2018.
+
+\bibitem{martinez2011cooperacion}
+Aida~Calvi{\~n}o Mart{\'\i}nez.
+\newblock Cooperaci{\'o}n en los problemas del viajante (tsp) y de rutas de
+  veh{\i}culos (vrp): una panor{\'a}mica.
+\newblock 2011.
+
+\bibitem{medina2011revision}
+Linda Bibiana~Rocha Medina, Elsa Cristina~Gonz{\'a}lez La~Rota, and Javier
+  Arturo~Orjuela Castro.
+\newblock Una revisi{\'o}n al estado del arte del problema de ruteo de
+  veh{\'\i}culos: Evoluci{\'o}n hist{\'o}rica y m{\'e}todos de soluci{\'o}n.
+\newblock {\em Ingenier{\'\i}a}, 16(2):35--55, 2011.
+
+\bibitem{parragh2008survey}
+Sophie~N Parragh, Karl~F Doerner, and Richard~F Hartl.
+\newblock A survey on pickup and delivery problems: Part ii: Transportation
+  between pickup and delivery locations.
+\newblock {\em Journal f{\"u}r Betriebswirtschaft}, 58:81--117, 2008.
+
+\bibitem{ropke2006unified}
+Stefan Ropke and David Pisinger.
+\newblock A unified heuristic for a large class of vehicle routing problems
+  with backhauls.
+\newblock {\em European Journal of Operational Research}, 171(3):750--775,
+  2006.
+
+\bibitem{ruiz2021problema}
+Jos{\'e} Ruiz-Meza.
+\newblock Problema de ruteo de veh{\'\i}culos multi-objetivo con entregas y
+  recogidas simult{\'a}neas y minimizaci{\'o}n de emisiones.
+\newblock {\em Ingeniare. Revista chilena de ingenier{\'\i}a}, 29(3):435--449,
+  2021.
+
+\bibitem{sural2003single}
+Haldun S{\"u}ral and James~H Bookbinder.
+\newblock The single-vehicle routing problem with unrestricted backhauls.
+\newblock {\em Networks: An International Journal}, 41(3):127--136, 2003.
+
+\bibitem{TapiaTorres2022}
+Yomar~Anabela Tapia~Torres.
+\newblock Complementos y aplicaciones de la programaci{\'o}n lineal entera :
+  Problema de ruteo de veh{\'i}culos con capacidad de carga limitada para la
+  recolecci{\'o}n dividida de m{\'u}ltiples productos.
+\newblock Master's thesis, EPN, Quito, oct 2022.
+
+\bibitem{toth1997exact}
+Paolo Toth and Daniele Vigo.
+\newblock An exact algorithm for the vehicle routing problem with backhauls.
+\newblock {\em Transportation science}, 31(4):372--385, 1997.
+
+\bibitem{vidal2014unified}
+Thibaut Vidal, Teodor~Gabriel Crainic, Michel Gendreau, and Christian Prins.
+\newblock A unified solution framework for multi-attribute vehicle routing
+  problems.
+\newblock {\em European Journal of Operational Research}, 234(3):658--673,
+  2014.
+
+\bibitem{wassan2017multiple}
+Naveed Wassan, Niaz Wassan, G{\'a}bor Nagy, and Sa{\"\i}d Salhi.
+\newblock The multiple trip vehicle routing problem with backhauls: Formulation
+  and a two-level variable neighbourhood search.
+\newblock {\em Computers \& Operations Research}, 78:454--467, 2017.
+
+\bibitem{zachariadis2012effective}
+Emmanouil~E Zachariadis and Chris~T Kiranoudis.
+\newblock An effective local search approach for the vehicle routing problem
+  with backhauls.
+\newblock {\em Expert Systems with Applications}, 39(3):3174--3184, 2012.
+
+\end{thebibliography}
