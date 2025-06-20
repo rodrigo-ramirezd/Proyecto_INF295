@@ -1,0 +1,48 @@
+RESULTADOS DE LA SOLUCIÓN
+Valor Función de Evaluación: 
+#Clientes Atendidos: 26
+#Vehiculos: 8
+Tiempo de Ejecución Total[s]: 0
+Tiempo de Ejecución del algoritmo Greedy[s]: 0
+Tiempo de Ejecución del algoritmo HC+FI[s]: 0
+----------------------------------------------------------
+Vehículo ID: 1
+Ruta asignada: ->0->2->3->4->19->21->22->26
+Distancia Recorrida: 128530
+Demanda Total: 1477
+----------------------------------------------------------
+Vehículo ID: 2
+Ruta asignada: ->0->5->6->7->9->23->24
+Distancia Recorrida: 79933.4
+Demanda Total: 1413
+----------------------------------------------------------
+Vehículo ID: 3
+Ruta asignada: ->0->8->10->17->25
+Distancia Recorrida: 29352
+Demanda Total: 427
+----------------------------------------------------------
+Vehículo ID: 4
+Ruta asignada: ->0->11->12
+Distancia Recorrida: 27432.2
+Demanda Total: 72
+----------------------------------------------------------
+Vehículo ID: 5
+Ruta asignada: ->0->13->14
+Distancia Recorrida: 29891.8
+Demanda Total: 185
+----------------------------------------------------------
+Vehículo ID: 6
+Ruta asignada: ->0->15->16->20
+Distancia Recorrida: 65736.4
+Demanda Total: 103
+----------------------------------------------------------
+Vehículo ID: 7
+Ruta asignada: ->0->18
+Distancia Recorrida: 25589.8
+Demanda Total: 764
+----------------------------------------------------------
+Vehículo ID: 8
+Ruta asignada: ->0
+Distancia Recorrida: 0
+Demanda Total: 1550
+----------------------------------------------------------

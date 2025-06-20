@@ -26,7 +26,7 @@ struct Customer {
     NodeType type;
     double x, y;
     double demand;
-    bool isVisited; // To track if a customer has been assigned to *any* route (global visited status)
+    bool isVisited;
 
     // Constructor
     Customer(int id, NodeType type, double x, double y, double demand = 0.0)

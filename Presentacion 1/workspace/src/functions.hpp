@@ -5,8 +5,11 @@
 
 extern map<int, Customer> tempCustomersMap;
 extern map<int, Vehicle> tempVehiclesMap;
+extern time_t startTime, middleTime;
+extern double GreedyTime, hcTime, totalTime;
 
-int readInstances(const std::string& filename);
-void assignRouteToVehicle(int vehicleId, double capacity);
+int readInstances(const string& filename);
+void assignRouteToVehicle(int vehicleId);
+int solInstance(const string& filename);
 
 #endif // FUNCTIONS_HPP

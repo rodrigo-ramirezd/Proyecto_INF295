@@ -1,0 +1,31 @@
+RESULTADOS DE LA SOLUCIÓN
+ValorFuncionDeEvaluación: 
+#ClientesAtendidos: 26
+#Vehiculos: 5
+TiempoEjecución[s]: 
+----------------------------------------------------------
+Vehículo ID: 1
+Ruta asignada: 
+Distancia Recorrida: 0
+Demanda Total: 0
+----------------------------------------------------------
+Vehículo ID: 2
+Ruta asignada: 
+Distancia Recorrida: 0
+Demanda Total: 0
+----------------------------------------------------------
+Vehículo ID: 3
+Ruta asignada: 
+Distancia Recorrida: 0
+Demanda Total: 0
+----------------------------------------------------------
+Vehículo ID: 4
+Ruta asignada: 
+Distancia Recorrida: 0
+Demanda Total: 0
+----------------------------------------------------------
+Vehículo ID: 5
+Ruta asignada: 
+Distancia Recorrida: 0
+Demanda Total: 0
+----------------------------------------------------------

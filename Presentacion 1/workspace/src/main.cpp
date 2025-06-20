@@ -1,7 +1,10 @@
 #include "functions.hpp"
 
+
 int main() {
     string filename = "./workspace/resources/GA1.txt";
+    string outFilename = "./workspace/output/GA1.txt";
+
     if(readInstances(filename) == 1){
         return 1;
     }
@@ -33,6 +36,27 @@ int main() {
     //         << it2->second.id << ": " << it1->second.calculateDistance(it2->second) << endl;
     //}
     // End of demonstration
+
+    startTime = time(nullptr);
+
+    // Assign routes to vehicles with Greedy Algorithm    
+    for (const auto& vehicle : tempVehiclesMap) {
+        assignRouteToVehicle(vehicle.second.id);
+    }
+    middleTime = time(nullptr);
+    GreedyTime = difftime(middleTime, startTime);
+
+    // Improve the solution with Hill Climbing (HC) algorithm
+    middleTime = time(nullptr);
+    // for (const auto& vehicle : tempVehiclesMap) {
+    //     hillClimbing(vehicle.second.id, vehicle.second.capacity);
+    // }
+    hcTime = difftime(time(nullptr), middleTime);
+
+    // Write the output
+    if (solInstance(outFilename) == 1) {
+        return 1;
+    }
 
     return 0;
 }
